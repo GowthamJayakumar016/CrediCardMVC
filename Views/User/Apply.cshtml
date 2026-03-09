@@ -1,0 +1,29 @@
+@model CreditCardAppMvc.DTOs.CreditCardApplicationDto
+
+<h3 class="text-primary mb-4">Apply Credit Card</h3>
+
+<form method="post">
+
+    <div class="mb-3">
+        <label>Name</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>PAN</label>
+        <input asp-for="PAN" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Date of Birth</label>
+        <input asp-for="DOB" type="date" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Annual Income</label>
+        <input asp-for="AnnualIncome" class="form-control" />
+    </div>
+
+    <button class="btn btn-primary">Apply</button>
+
+</form>

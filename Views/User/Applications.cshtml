@@ -1,0 +1,38 @@
+@model List<CreditCardAppMvc.Models.Application>
+
+<h3 class="text-primary mb-4">My Applications</h3>
+
+<table class="table table-bordered table-striped">
+
+    <thead class="table-primary">
+
+        <tr>
+
+            <th>PAN</th>
+            <th>Income</th>
+            <th>Credit Score</th>
+            <th>Credit Limit</th>
+            <th>Status</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var app in Model)
+        {
+            <tr>
+
+                <td>@app.PAN</td>
+                <td>@app.AnnualIncome</td>
+                <td>@app.CreditScore</td>
+                <td>@app.CreditLimit</td>
+                <td>@app.Status</td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
