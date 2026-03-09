@@ -1,6 +1,5 @@
 using CreditCardAppMvc.DTOs;
 using CreditCardAppMvc.Services.Interfaces;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace CreditCardAppMvc.Controllers
@@ -34,7 +33,7 @@ namespace CreditCardAppMvc.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
+                ViewBag.Error = ex.Message;
                 return View(dto);
             }
         }
@@ -44,18 +43,16 @@ namespace CreditCardAppMvc.Controllers
         {
             try
             {
-                var result = await _service.Login(dto);
+                var user = await _service.Login(dto);
 
-                Response.Cookies.Append("jwt", result.token);
-
-                if (result.role == "Admin")
+                if (user.Role == "Admin")
                     return RedirectToAction("Dashboard", "Admin");
 
                 return RedirectToAction("Dashboard", "User");
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
+                ViewBag.Error = ex.Message;
                 return View(dto);
             }
         }

@@ -1,5 +1,5 @@
 using CreditCardAppMvc.DTOs;
-
+using CreditCardAppMvc.Models;
 
 namespace CreditCardAppMvc.Services.Interfaces
 {
@@ -7,6 +7,6 @@ namespace CreditCardAppMvc.Services.Interfaces
     {
         Task Register(RegisterDto dto);
 
-        Task<(string token, string role)> Login(LoginDto dto);
+        Task<User> Login(LoginDto dto);
     }
 }

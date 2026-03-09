@@ -1,8 +1,8 @@
 @model List<CreditCardAppMvc.Models.Application>
 
-<h2 class="text-primary mb-4">Applications</h2>
+<h3 class="text-primary mb-4">Applications</h3>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered">
 
     <thead class="table-primary">
 
@@ -24,7 +24,7 @@
         {
             <tr>
 
-                <td>@app.User.Name</td>
+                <td>@app.User?.Name</td>
                 <td>@app.PAN</td>
                 <td>@app.AnnualIncome</td>
                 <td>@app.CreditScore</td>
@@ -35,13 +35,13 @@
 
                     @if (app.Status == "Pending")
                     {
-                        <a href="/Admin/Approve/@app.Id"
-                           class="btn btn-success btn-sm">
+                        <a class="btn btn-success btn-sm"
+                           href="/Admin/Approve/@app.Id">
                             Approve
                         </a>
 
-                        <a href="/Admin/Reject/@app.Id"
-                           class="btn btn-danger btn-sm">
+                        <a class="btn btn-danger btn-sm"
+                           href="/Admin/Reject/@app.Id">
                             Reject
                         </a>
                     }

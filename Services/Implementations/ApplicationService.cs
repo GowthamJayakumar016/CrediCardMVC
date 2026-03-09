@@ -2,7 +2,6 @@ using CreditCardAppMvc.Data;
 using CreditCardAppMvc.DTOs;
 using CreditCardAppMvc.Models;
 using CreditCardAppMvc.Services.Interfaces;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace CreditCardAppMvc.Services.Implementations
@@ -16,18 +15,18 @@ namespace CreditCardAppMvc.Services.Implementations
             _context = context;
         }
 
-        public int GenerateCreditScore()
+        private int GenerateScore()
         {
-            Random random = new Random();
-            return random.Next(600, 981);
+            Random r = new Random();
+            return r.Next(600, 981);
         }
 
-        public decimal CalculateCreditLimit(decimal income)
+        private decimal CalculateLimit(decimal income)
         {
             if (income <= 200000)
                 return 50000;
 
-            if (income > 200000 && income < 300000)
+            if (income < 300000)
                 return 75000;
 
             return 100000;
@@ -35,22 +34,20 @@ namespace CreditCardAppMvc.Services.Implementations
 
         public async Task Apply(int userId, CreditCardApplicationDto dto)
         {
-            int score = GenerateCreditScore();
+            var score = GenerateScore();
+            var limit = CalculateLimit(dto.AnnualIncome);
 
-            decimal limit = CalculateCreditLimit(dto.AnnualIncome);
-
-            var application = new Application
+            var app = new Application
             {
                 UserId = userId,
                 PAN = dto.PAN,
                 DOB = dto.DOB,
                 AnnualIncome = dto.AnnualIncome,
                 CreditScore = score,
-                CreditLimit = limit,
-                Status = "Pending"
+                CreditLimit = limit
             };
 
-            _context.Applications.Add(application);
+            _context.Applications.Add(app);
 
             await _context.SaveChangesAsync();
         }
@@ -68,32 +65,29 @@ namespace CreditCardAppMvc.Services.Implementations
                 .Include(x => x.User)
                 .ToListAsync();
         }
-
-        public async Task Approve(int applicationId)
+        public async Task<List<Application>> GetApplicationsByStatus(string status)
         {
-            var app = await _context.Applications.FindAsync(applicationId);
+            return await _context.Applications
+                .Include(x => x.User)
+                .Where(x => x.Status == status)
+                .ToListAsync();
+        }
+
+        public async Task ApproveApplication(int id)
+        {
+            var app = await _context.Applications.FindAsync(id);
 
             if (app == null)
                 throw new Exception("Application not found");
 
             app.Status = "Approved";
 
-            var card = new CreditCard
-            {
-                ApplicationId = app.Id,
-                CardNumber = Guid.NewGuid().ToString().Substring(0, 16),
-                DispatchNumber = Guid.NewGuid().ToString().Substring(0, 10),
-                IssuedDate = DateTime.Now
-            };
-
-            _context.CreditCards.Add(card);
-
             await _context.SaveChangesAsync();
         }
 
-        public async Task Reject(int applicationId)
+        public async Task RejectApplication(int id)
         {
-            var app = await _context.Applications.FindAsync(applicationId);
+            var app = await _context.Applications.FindAsync(id);
 
             if (app == null)
                 throw new Exception("Application not found");

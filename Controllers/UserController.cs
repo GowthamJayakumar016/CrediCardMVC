@@ -1,6 +1,5 @@
 using CreditCardAppMvc.DTOs;
 using CreditCardAppMvc.Services.Interfaces;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace CreditCardAppMvc.Controllers
@@ -38,9 +37,9 @@ namespace CreditCardAppMvc.Controllers
         {
             int userId = 1;
 
-            var data = await _service.GetUserApplications(userId);
+            var apps = await _service.GetUserApplications(userId);
 
-            return View(data);
+            return View(apps);
         }
     }
 }

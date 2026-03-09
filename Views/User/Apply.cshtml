@@ -2,7 +2,14 @@
 
 <h3 class="text-primary mb-4">Apply Credit Card</h3>
 
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
 <form method="post">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
 
     <div class="mb-3">
         <label>Name</label>
@@ -10,12 +17,12 @@
     </div>
 
     <div class="mb-3">
-        <label>PAN</label>
+        <label>PAN Number</label>
         <input asp-for="PAN" class="form-control" />
     </div>
 
     <div class="mb-3">
-        <label>Date of Birth</label>
+        <label>Date Of Birth</label>
         <input asp-for="DOB" type="date" class="form-control" />
     </div>
 

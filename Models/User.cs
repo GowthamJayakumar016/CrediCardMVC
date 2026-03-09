@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CreditCardAppMvc.Models
 {
@@ -8,20 +7,16 @@ namespace CreditCardAppMvc.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50)]
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
 
         [Required]
         [EmailAddress]
-        [MaxLength(100)]
-        public string Email { get; set; }
+        public string Email { get; set; } = "";
 
-        [Required]
-        public string PasswordHash { get; set; }
+        public string PasswordHash { get; set; } = "";
 
-        [Required]
-        public string Role { get; set; }
+        public string Role { get; set; } = "User";
 
-        public List<Application> Applications { get; set; }
+        public List<Application>? Applications { get; set; }
     }
 }
